@@ -1,0 +1,35 @@
+#!/usr/bin/env ruby
+
+require 'optparse'
+require_relative '../lib/ticket_data_structure'
+
+options = {}
+
+ parser = OptionParser.new do |opt|
+  opt.on('-q', '--query [VALUE(S)]', Array) { |query| options[:query] = query }
+  opt.on('-o', '--org [VALUE]', String) { |org| options[:org] = org }
+  opt.on('-p', '--project [VALUE]', String) { |project| options[:project] = project }
+  opt.on('-g', '--greeting [VALUE]', String) { |greeting| options[:greeting] = greeting }
+  opt.on('-i', '--intro [VALUE]', String) { |intro| options[:intro] = intro }
+  opt.on('-c', '--closings [VALUE]', String) { |closings| options[:closings] = closings }
+  opt.on('-s', '--signature [VALUE]', String) { |signature| options[:signature] = signature }
+  opt.on('-r', '--recipients [VALUE]', String) { |recipients| options[:recipients] = recipients }
+  opt.on('-S', '--subject [VALUE]', String) { |subject| options[:subject] = subject }
+  opt.on('-e', '--email') { |email| options[:email] = email}
+
+  opt.separator ''
+  opt.on('-h', '--help', "Print this help.") do |help|
+      puts opt
+      exit
+  end
+end
+
+begin
+  parser.parse!
+  work_items = WorkItems.new(options)
+  puts(work_items.to_s)
+  work_items.create_report_from_tickets(options)
+  exec("python3.9 mail.py") if options[:email]
+  rescue OptionParser::InvalidOption => e
+  STDERR.puts "#{e.message}. Run '#{::File.basename($0)}' --help for details."
+end
