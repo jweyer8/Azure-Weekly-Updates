@@ -4,8 +4,8 @@ class WorkItems
   attr_accessor :org, :project, :queries, :tickets 
 
   def initialize(options)
-    @org = options[:org] || 'https://dev.azure.com/office/'
-    @project = options[:project] || 'OE'
+    @org = options[:org] || raise 'Please set the org with the -o option'
+    @project = options[:project] || raise 'Please set the project name with the -p option'
     @queries = options[:query] || Array.new()
 
     get_tickets_from_queries
