@@ -4,10 +4,9 @@ class WorkItems
   attr_accessor :org, :project, :queries, :tickets 
 
   def initialize(options)
-    @org = options[:org] || raise 'Please set the org with the -o option'
-    @project = options[:project] || raise 'Please set the project name with the -p option'
+    @org = options[:org] 
+    @project = options[:project] 
     @queries = options[:query] || Array.new()
-
     get_tickets_from_queries
   end
 
