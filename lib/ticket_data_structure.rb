@@ -4,9 +4,9 @@ class WorkItems
   attr_accessor :org, :project, :queries, :tickets 
 
   def initialize(options)
-    @org = options[:org] 
-    @project = options[:project] 
-    @queries = options[:query] || Array.new()
+    @org = options[:org] || 'https://dev.azure.com/office'
+    @project = options[:project] || 'OE'
+    @queries = options[:query].split || Array.new()
     get_tickets_from_queries
   end
 
@@ -32,11 +32,12 @@ class WorkItems
   private 
 
   def get_tickets_from_queries
-    @queries.each do |query| 
+    @tickets = Array.new()
+
+    @queries.each do |query|
       returned_query_json = query_query(query)
       parsed_query_json = parse_query_json(returned_query_json)
       
-      @tickets = Array.new()
       parsed_query_json.each { |ticket| @tickets << Ticket.new(ticket) } unless parsed_query_json.nil?
     end
   end

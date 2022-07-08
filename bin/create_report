@@ -6,7 +6,7 @@ require_relative '../lib/ticket_data_structure'
 options = {}
 
  parser = OptionParser.new do |opt|
-  opt.on('-q', '--query [VALUE(S)]', Array) { |query| options[:query] = query }
+  opt.on('-q', '--query ["VALUE, VALUE, VALUE..."]', String) { |query| options[:query] = query }
   opt.on('-o', '--org [VALUE]', String) { |org| options[:org] = org }
   opt.on('-p', '--project [VALUE]', String) { |project| options[:project] = project }
   opt.on('-g', '--greeting [VALUE]', String) { |greeting| options[:greeting] = greeting }
